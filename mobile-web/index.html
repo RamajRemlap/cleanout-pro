@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2563eb">
+    <title>CleanoutPro Mobile</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f3f4f6;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+
+        .btn-secondary:active {
+            background: #4b5563;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .preview-img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .result {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .result h3 {
+            color: #166534;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #dcfce7;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #166534;
+            font-weight: 500;
+        }
+
+        .result-value {
+            color: #15803d;
+            font-weight: 600;
+        }
+
+        .error {
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .settings {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .job-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .job-item {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .job-item:active {
+            background: #f3f4f6;
+        }
+
+        .job-item h4 {
+            font-size: 16px;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .job-item p {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .install-banner {
+            background: #fef3c7;
+            padding: 16px;
+            text-align: center;
+            display: none;
+            border-bottom: 1px solid #fbbf24;
+        }
+
+        .install-banner button {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="install-banner" id="installBanner">
+        <p>📱 Add CleanoutPro to your Home Screen for quick access!</p>
+        <button onclick="showInstallInstructions()">Show Me How</button>
+    </div>
+
+    <div class="header">
+        <h1>🏠 CleanoutPro Mobile</h1>
+    </div>
+
+    <div class="container">
+        <!-- Settings -->
+        <div class="card">
+            <h2>⚙️ API Settings</h2>
+            <input type="text" id="apiUrl" placeholder="https://your-backend.railway.app" value="">
+            <button class="btn btn-secondary" onclick="saveSettings()">💾 Save Settings</button>
+            <p style="font-size: 12px; color: #6b7280; margin-top: 10px;">
+                Enter your backend API URL from Railway/Render deployment
+            </p>
+        </div>
+
+        <!-- Job Selection -->
+        <div class="card">
+            <h2>📋 Select Job</h2>
+            <button class="btn btn-secondary" onclick="loadJobs()">📂 Load Jobs</button>
+            <div id="selectedJob" style="margin-top: 10px; padding: 10px; background: #f3f4f6; border-radius: 6px; display: none;">
+                <strong>Selected:</strong> <span id="jobName"></span>
+            </div>
+        </div>
+
+        <!-- Camera/Photo Upload -->
+        <div class="card">
+            <h2>📸 Capture Room Photo</h2>
+            <input type="text" id="roomName" placeholder="Room name (e.g., Master Bedroom)">
+
+            <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="previewPhoto()">
+            <label for="photoInput">
+                <div class="btn">📷 Take Photo</div>
+            </label>
+
+            <img id="preview" class="preview-img" alt="Preview">
+
+            <button class="btn" onclick="classifyRoom()" style="margin-top: 10px; display: none;" id="uploadBtn">
+                🤖 Classify & Estimate
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>AI analyzing room... (10-30 seconds)</p>
+            </div>
+
+            <div class="error" id="error"></div>
+
+            <div class="result" id="result">
+                <h3>✅ Classification Complete</h3>
+                <div class="result-item">
+                    <span class="result-label">Room:</span>
+                    <span class="result-value" id="resultRoom"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Size:</span>
+                    <span class="result-value" id="resultSize"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Workload:</span>
+                    <span class="result-value" id="resultWorkload"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Estimate:</span>
+                    <span class="result-value" id="resultCost"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Confidence:</span>
+                    <span class="result-value" id="resultConfidence"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Selection Modal -->
+    <div class="modal" id="jobModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 15px;">Select a Job</h2>
+            <div class="job-list" id="jobList"></div>
+            <button class="btn btn-secondary" onclick="closeJobModal()" style="margin-top: 15px;">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedJobId = null;
+        let currentPhoto = null;
+
+        // Check for saved API URL
+        window.addEventListener('load', () => {
+            const savedUrl = localStorage.getItem('apiUrl');
+            if (savedUrl) {
+                document.getElementById('apiUrl').value = savedUrl;
+            }
+
+            // Show install banner on iOS Safari
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isStandalone = window.navigator.standalone;
+            if (isIOS && !isStandalone) {
+                document.getElementById('installBanner').style.display = 'block';
+            }
+        });
+
+        function saveSettings() {
+            const apiUrl = document.getElementById('apiUrl').value.trim();
+            if (!apiUrl) {
+                showError('Please enter an API URL');
+                return;
+            }
+            localStorage.setItem('apiUrl', apiUrl);
+            alert('✅ Settings saved!');
+        }
+
+        function getApiUrl() {
+            const url = localStorage.getItem('apiUrl');
+            if (!url) {
+                showError('Please configure API URL in settings first');
+                return null;
+            }
+            return url.replace(/\/$/, ''); // Remove trailing slash
+        }
+
+        async function loadJobs() {
+            const apiUrl = getApiUrl();
+            if (!apiUrl) return;
+
+            try {
+                const response = await fetch(`${apiUrl}/api/jobs`);
+                if (!response.ok) throw new Error('Failed to load jobs');
+
+                const jobs = await response.json();
+                displayJobs(jobs);
+            } catch (error) {
+                showError('Failed to load jobs: ' + error.message);
+            }
+        }
+
+        function displayJobs(jobs) {
+            const jobList = document.getElementById('jobList');
+            jobList.innerHTML = '';
+
+            if (jobs.length === 0) {
+                jobList.innerHTML = '<p style="padding: 20px; text-align: center; color: #6b7280;">No jobs found</p>';
+            } else {
+                jobs.forEach(job => {
+                    const div = document.createElement('div');
+                    div.className = 'job-item';
+                    div.onclick = () => selectJob(job);
+                    div.innerHTML = `
+                        <h4>Job #${job.id} - ${job.status}</h4>
+                        <p>${job.address || 'No address'}</p>
+                    `;
+                    jobList.appendChild(div);
+                });
+            }
+
+            document.getElementById('jobModal').style.display = 'flex';
+        }
+
+        function selectJob(job) {
+            selectedJobId = job.id;
+            document.getElementById('jobName').textContent = `Job #${job.id} - ${job.address || 'No address'}`;
+            document.getElementById('selectedJob').style.display = 'block';
+            closeJobModal();
+        }
+
+        function closeJobModal() {
+            document.getElementById('jobModal').style.display = 'none';
+        }
+
+        function previewPhoto() {
+            const input = document.getElementById('photoInput');
+            const preview = document.getElementById('preview');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    uploadBtn.style.display = 'block';
+                    currentPhoto = input.files[0];
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function classifyRoom() {
+            const apiUrl = getApiUrl();
+            if (!apiUrl) return;
+
+            const roomName = document.getElementById('roomName').value.trim();
+            if (!roomName) {
+                showError('Please enter a room name');
+                return;
+            }
+
+            if (!selectedJobId) {
+                showError('Please select a job first');
+                return;
+            }
+
+            if (!currentPhoto) {
+                showError('Please take a photo first');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('uploadBtn').disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('job_id', selectedJobId);
+                formData.append('room_name', roomName);
+                formData.append('image', currentPhoto);
+
+                const response = await fetch(`${apiUrl}/api/rooms/classify`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Classification failed');
+                }
+
+                const result = await response.json();
+                displayResult(result);
+            } catch (error) {
+                showError('Classification failed: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('uploadBtn').disabled = false;
+            }
+        }
+
+        function displayResult(result) {
+            document.getElementById('resultRoom').textContent = result.room_name;
+            document.getElementById('resultSize').textContent = result.final_size_class || result.ai_size_class || 'Unknown';
+            document.getElementById('resultWorkload').textContent = result.final_workload_class || result.ai_workload_class || 'Unknown';
+            document.getElementById('resultCost').textContent = '$' + (result.estimated_cost || 0).toFixed(2);
+            document.getElementById('resultConfidence').textContent = ((result.ai_confidence || 0) * 100).toFixed(0) + '%';
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '❌ ' + message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showInstallInstructions() {
+            alert('📱 To install:\n\n1. Tap the Share button (⎘)\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add" in the top right\n\nThe app will appear on your home screen!');
+        }
+
+        // Service Worker registration for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {
+                // Service worker registration failed, app still works
+            });
+        }
+    </script>
+</body>
+</html>
