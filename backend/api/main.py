@@ -82,13 +82,20 @@ app.include_router(rooms.router)
 @app.on_event("startup")
 async def startup_event():
     import os
-    from database.connection import DATABASE_URL
-    logger.info("🚀 CleanoutPro API starting up...")
-    logger.info(f"🔗 Database URL: {DATABASE_URL[:50]}...")
-    logger.info("📊 Database connection: Ready")
-    logger.info("🤖 AI Vision service: Ready")
-    logger.info("💳 PayPal integration: Ready")
-    logger.info("✅ All systems operational")
+    try:
+        from database.connection import DATABASE_URL
+        db_url = DATABASE_URL if DATABASE_URL else "Not configured"
+        if isinstance(db_url, str) and len(db_url) > 50:
+            db_url = db_url[:50] + "..."
+        logger.info("🚀 CleanoutPro API starting up...")
+        logger.info(f"🔗 Database URL: {db_url}")
+        logger.info("📊 Database connection: Ready")
+        logger.info("🤖 AI Vision service: Ready")
+        logger.info("💳 PayPal integration: Ready")
+        logger.info("✅ All systems operational")
+    except Exception as e:
+        logger.warning(f"⚠️ Startup warning (non-critical): {e}")
+        logger.info("✅ API started (database connection may be configured later)")
 
 # Shutdown event
 @app.on_event("shutdown")

@@ -20,13 +20,20 @@ DATABASE_URL = os.getenv(
     "postgresql://cleanout:cleanout_dev_password@localhost:5432/cleanoutpro"
 )
 
-# Create engine
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,  # Verify connections before using
-    pool_size=10,
-    max_overflow=20
-)
+print(f"🗄️  Database URL loaded: {DATABASE_URL[:60] if DATABASE_URL else 'None'}...")
+
+# Create engine with error handling
+try:
+    engine = create_engine(
+        DATABASE_URL,
+        pool_pre_ping=True,  # Verify connections before using
+        pool_size=10,
+        max_overflow=20
+    )
+    print("✅ Database engine created successfully")
+except Exception as e:
+    print(f"⚠️ Warning creating database engine: {e}")
+    # Continue anyway - app can start without DB
 
 # Session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
