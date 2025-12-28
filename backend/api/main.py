@@ -11,8 +11,7 @@ from datetime import datetime
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -22,7 +21,7 @@ app = FastAPI(
     description="API for cleanout/junk removal business management",
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # CORS configuration
@@ -34,6 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Global exception handler
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
@@ -43,9 +43,10 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={
             "error": "Internal server error",
             "message": str(exc),
-            "timestamp": datetime.now().isoformat()
-        }
+            "timestamp": datetime.now().isoformat(),
+        },
     )
+
 
 # Health check endpoint
 @app.get("/")
@@ -54,22 +55,22 @@ async def root():
         "service": "CleanoutPro API",
         "version": "1.0.0",
         "status": "running",
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
     }
+
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint for monitoring"""
-    return {
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat()
-    }
+    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+
 
 # Import and register routes
-from api.routes import jobs, rooms
+from api.routes import jobs, rooms, michigan
 
 app.include_router(jobs.router)
 app.include_router(rooms.router)
+app.include_router(michigan.router)
 
 # TODO: Add remaining routes as they are created
 # from api.routes import customers, invoices, ai, paypal
@@ -78,40 +79,39 @@ app.include_router(rooms.router)
 # app.include_router(ai.router)
 # app.include_router(paypal.router)
 
+
 # Startup event
 @app.on_event("startup")
 async def startup_event():
     try:
-        logger.info("🚀 CleanoutPro API starting up...")
+        logger.info("[STARTUP] CleanoutPro API starting up...")
         try:
             from database.connection import DATABASE_URL
+
             db_url = DATABASE_URL if DATABASE_URL else "Not configured"
             if isinstance(db_url, str) and len(db_url) > 50:
                 db_url = db_url[:50] + "..."
-            logger.info(f"🔗 Database URL: {db_url}")
+            logger.info(f"[DB] Database URL: {db_url}")
         except Exception as db_err:
-            logger.warning(f"⚠️ Database URL not available: {db_err}")
-        
-        logger.info("📊 Database connection: Ready")
-        logger.info("🤖 AI Vision service: Ready")
-        logger.info("💳 PayPal integration: Ready")
-        logger.info("✅ All systems operational")
+            logger.warning(f"[WARN] Database URL not available: {db_err}")
+
+        logger.info("[OK] Database connection: Ready")
+        logger.info("[OK] AI Vision service: Ready")
+        logger.info("[OK] PayPal integration: Ready")
+        logger.info("[OK] All systems operational")
     except Exception as e:
-        logger.warning(f"⚠️ Startup warning (non-critical): {e}")
-        logger.info("✅ API started despite warnings")
+        logger.warning(f"[WARN] Startup warning (non-critical): {e}")
+        logger.info("[OK] API started despite warnings")
+
 
 # Shutdown event
 @app.on_event("shutdown")
 async def shutdown_event():
-    logger.info("🛑 CleanoutPro API shutting down...")
-    logger.info("✅ Cleanup complete")
+    logger.info("[SHUTDOWN] CleanoutPro API shutting down...")
+    logger.info("[OK] Cleanup complete")
+
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info"
-    )
+
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")

@@ -1,0 +1,79 @@
+{
+  "name": "cleanoutpro-desktop",
+  "version": "1.0.0",
+  "description": "CleanoutPro Desktop - 3D Visualization & Job Management",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:react\" \"wait-on http://localhost:3000 && npm run start:electron\"",
+    "start:react": "react-scripts start",
+    "start:electron": "electron .",
+    "build": "react-scripts build",
+    "build:electron": "npm run build && electron-builder",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [
+    "cleanout",
+    "junk-removal",
+    "3d-visualization",
+    "electron"
+  ],
+  "author": "CleanoutPro",
+  "license": "MIT",
+  "dependencies": {
+    "@react-three/fiber": "^8.15.12",
+    "@react-three/drei": "^9.92.7",
+    "axios": "^1.6.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "three": "^0.160.0",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "@types/three": "^0.160.0",
+    "concurrently": "^8.2.2",
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1",
+    "react-scripts": "5.0.1",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.cleanoutpro.desktop",
+    "productName": "CleanoutPro",
+    "directories": {
+      "buildResources": "assets"
+    },
+    "files": [
+      "build/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "assets/icon.png"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

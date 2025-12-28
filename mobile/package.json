@@ -1,0 +1,52 @@
+{
+  "name": "cleanoutpro-mobile",
+  "version": "1.0.0",
+  "description": "CleanoutPro Mobile App - AI-powered junk removal estimates",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
+    "@react-navigation/bottom-tabs": "^6.5.11",
+    "react": "18.2.0",
+    "react-native": "0.72.7",
+    "react-native-safe-area-context": "^4.7.4",
+    "react-native-screens": "^3.27.0",
+    "react-native-vector-icons": "^10.0.2",
+    "react-native-vision-camera": "^3.6.13",
+    "react-native-image-picker": "^7.1.0",
+    "axios": "^1.6.2",
+    "@react-native-async-storage/async-storage": "^1.21.0",
+    "react-native-fs": "^2.20.0",
+    "react-native-gesture-handler": "^2.14.0",
+    "react-native-reanimated": "^3.6.0",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
+    "@babel/runtime": "^7.23.5",
+    "@react-native/babel-preset": "^0.72.11",
+    "@react-native/eslint-config": "^0.72.2",
+    "@react-native/metro-config": "^0.72.11",
+    "@types/react": "^18.2.42",
+    "@types/react-native": "^0.72.7",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "metro-react-native-babel-preset": "^0.77.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

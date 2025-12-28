@@ -9,22 +9,22 @@ from pathlib import Path
 # Add backend directory to Python path
 sys.path.insert(0, str(Path(__file__).parent))
 
-print("🔧 Vercel serverless initializing...")
+print("[INIT] Vercel serverless initializing...")
 
 # Load environment variables
 try:
     from dotenv import load_dotenv
     load_dotenv()
-    print("✅ Environment variables loaded")
+    print("[OK] Environment variables loaded")
 except Exception as e:
-    print(f"⚠️ Warning loading .env: {e}")
+    print(f"[WARN] Warning loading .env: {e}")
 
 # Import and expose FastAPI app
 try:
     from api.main import app
-    print("✅ FastAPI app imported successfully")
+    print("[OK] FastAPI app imported successfully")
 except Exception as e:
-    print(f"❌ Error importing app: {e}")
+    print(f"[ERROR] Error importing app: {e}")
     import traceback
     traceback.print_exc()
     raise

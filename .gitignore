@@ -43,3 +43,19 @@ htmlcov/
 
 # Docker
 .dockerignore
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+package-lock.json
+.pnpm-debug.log*
+
+# Mobile-web build
+mobile-web/dist/
+desktop/build/
+
+# Deployment configs
+.netlify/
+.vercel/
+.railway/

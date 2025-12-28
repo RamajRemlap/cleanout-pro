@@ -1,0 +1,114 @@
+═══════════════════════════════════════════════════════════════
+    📱 CleanoutPro Mobile Web PWA - QUICKSTART
+═══════════════════════════════════════════════════════════════
+
+🚀 DEPLOY IN 3 STEPS (1 MINUTE):
+
+1. BUILD:
+   cd mobile-web
+   npm install
+   npm run build
+
+2. DEPLOY:
+   Option A: Drag & Drop (Easiest)
+   - Open https://app.netlify.com/drop
+   - Drag 'dist' folder
+   - Get URL instantly!
+
+   Option B: Netlify CLI
+   npm install -g netlify-cli
+   netlify deploy --prod
+
+3. USE ON iPHONE:
+   - Open URL in Safari
+   - Tap Share → Add to Home Screen
+   - Launch from home screen!
+
+═══════════════════════════════════════════════════════════════
+
+📸 FEATURES:
+
+✅ Camera capture (browser API - works on iPhone!)
+✅ Upload photos to backend for AI analysis
+✅ View room classifications and estimates
+✅ Offline support (PWA)
+✅ Add to home screen (install like app)
+✅ Auto-updates (no app store)
+✅ Works on ANY device (iPhone, Android, desktop)
+
+═══════════════════════════════════════════════════════════════
+
+🔧 CONFIGURATION:
+
+On first launch, enter your backend API URL:
+- Local: http://localhost:8000
+- Railway: https://your-app.railway.app
+- Render: https://your-app.onrender.com
+
+Change later: Click "Change API URL" on job list
+
+═══════════════════════════════════════════════════════════════
+
+🎨 CUSTOMIZE ICONS:
+
+1. Open: mobile-web/generate-icons.html in browser
+2. Click "Generate Icons"
+3. Click "Download All"
+4. Move to mobile-web/public/ folder
+5. Rebuild and redeploy
+
+═══════════════════════════════════════════════════════════════
+
+📱 CAMERA PERMISSIONS (iPhone):
+
+Settings → Safari → Camera → Allow
+
+OR when prompted in browser, tap "Allow"
+
+═══════════════════════════════════════════════════════════════
+
+✅ TEST WORKFLOW:
+
+1. Open app on iPhone
+2. Select a job
+3. Tap "Add Room"
+4. Allow camera access
+5. Capture room photo
+6. Enter room name
+7. Upload & analyze
+8. View AI classification!
+
+═══════════════════════════════════════════════════════════════
+
+🆚 MOBILE WEB PWA vs REACT NATIVE:
+
+Mobile Web (NOW):
++ Deploy in 1 minute
++ No app store
++ Instant updates
++ Works everywhere
++ 500 KB size
+- 90% performance
+
+React Native (LATER):
++ Best performance
++ Native features
++ App store presence
+- Hours to deploy
+- App store review
+- 50 MB size
+
+USE PWA NOW, migrate to React Native later if needed!
+
+═══════════════════════════════════════════════════════════════
+
+🎯 YOU'RE READY!
+
+Run: DEPLOY_MOBILE_WEB.bat (Windows)
+Or: cd mobile-web && npm install && npm run build
+
+Then drag dist/ folder to https://app.netlify.com/drop
+
+DONE! 🎉
+
+═══════════════════════════════════════════════════════════════
