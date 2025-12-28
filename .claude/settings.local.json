@@ -35,7 +35,19 @@
       "Bash(timeout 5 curl:*)",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(powershell.exe -Command \"railway --version\")",
+      "Bash(npm install:*)",
+      "Bash(set RAILWAY_TOKEN=2520b6ce-2f9d-4f69-84a7-fa2fc6aca3a9)",
+      "Bash(railway whoami:*)",
+      "Bash(powershell.exe -Command \"$env:RAILWAY_TOKEN=''2520b6ce-2f9d-4f69-84a7-fa2fc6aca3a9''; cd ''C:\\\\Users\\\\Jeles\\\\OneDrive\\\\Documents\\\\GitHub\\\\cleanout-pro''; railway whoami\")",
+      "Bash(railway login:*)",
+      "Bash(powershell.exe -Command \"New-Item -ItemType Directory -Force -Path $env:USERPROFILE\\\\.railway | Out-Null; Set-Content -Path $env:USERPROFILE\\\\.railway\\\\config.json -Value ''{\"\"token\"\":\"\"2520b6ce-2f9d-4f69-84a7-fa2fc6aca3a9\"\"}''\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File deploy_railway.ps1)"
     ]
   }
 }
