@@ -1,45 +1,50 @@
 """
-Root app wrapper for Railway deployment
-This module makes the FastAPI app available from project root
+CleanoutPro Backend - Root Entry Point
+This is the main entry point for Railway and other cloud deployments
 """
 import os
 import sys
 from pathlib import Path
 
-# Ensure backend is in the path
-backend_dir = Path(__file__).parent / "backend"
-if str(backend_dir) not in sys.path:
-    sys.path.insert(0, str(backend_dir))
+# Ensure backend directory is in Python path
+backend_path = Path(__file__).parent / "backend"
+if str(backend_path) not in sys.path:
+    sys.path.insert(0, str(backend_path))
 
-print(f"✅ Added to path: {backend_dir}")
-
-# Load environment variables
+# Load environment variables from backend/.env
 from dotenv import load_dotenv
-env_file = backend_dir / ".env"
+env_file = backend_path / ".env"
 if env_file.exists():
     load_dotenv(env_file)
-    print(f"✅ Loaded .env from {env_file}")
+    print(f"✅ Environment loaded from {env_file}")
 else:
-    print(f"⚠️ No .env file at {env_file}")
+    print(f"ℹ️  No .env file at {env_file}, using Railway variables")
 
-# Import and expose the app
+# Import the FastAPI app
+print("📦 Importing CleanoutPro API...")
 try:
     from api.main import app
-    print("✅ FastAPI app imported successfully")
-except Exception as e:
-    print(f"❌ Failed to import app: {e}")
+    print("✅ CleanoutPro API imported successfully")
+except ImportError as e:
+    print(f"❌ Failed to import FastAPI app: {e}")
     import traceback
     traceback.print_exc()
-    raise
+    sys.exit(1)
 
-# For Gunicorn/Uvicorn to find the app
+# Expose for ASGI servers
+__all__ = ["app"]
+
+# Run directly if invoked as main
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", 8000))
-    print(f"🚀 Starting server on port {port}")
+    print(f"🚀 Starting CleanoutPro API on http://0.0.0.0:{port}")
+    print(f"📚 API docs available at http://0.0.0.0:{port}/docs")
     uvicorn.run(
         app,
         host="0.0.0.0",
         port=port,
-        log_level="info"
+        log_level="info",
+        access_log=True
     )
+
