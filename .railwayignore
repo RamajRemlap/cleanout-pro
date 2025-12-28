@@ -1,0 +1,23 @@
+# Railway ignore file - tells Railway to ignore these directories
+node_modules/
+*.tsx
+*.ts
+*.jsx
+*.js
+vite.config.ts
+tsconfig.json
+*.html
+package.json
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.next/
+dist/
+build/
+coverage/
+.env.local
+.env.*.local
+
+# Keep backend files - these are needed
+!backend/
+!backend/**/*.py

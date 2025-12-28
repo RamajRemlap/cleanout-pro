@@ -1,5 +1,11 @@
 [build]
-builder = "paketo"
+# Use Dockerfile for explicit control
+dockerfile = "Dockerfile"
+buildCommand = ""
 
 [deploy]
-startCommand = "python app.py"
+startCommand = ""
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+
+
